@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% import "macros.html" as m with context %}
+{% set section = "publications" %}
+{% set pub = publication %}
+{% block title %}{{ pub.id }}: {{ pub.title }} - {{ SITENAME }}{% endblock %}
+{% block content %}
+{% if pub.replaced_by %}
+<div class="win notice"><div class="in">
+  <p>This publication has been replaced by {{ m.publication_links(pub.replaced_by) }}. It stays available here as it was issued.</p>
+</div></div>
+{% endif %}
+
+<section class="win">
+  <p class="bar">{{ pub.id }} &middot; {{ pub.series }}</p>
+  <div class="in">
+    <h1>{{ pub.title }}</h1>
+    <dl class="defs">
+      <dt>Number</dt><dd>{{ pub.id }}</dd>
+      <dt>Type</dt><dd>{{ pub.series }}</dd>
+      <dt>Dated</dt><dd>{{ pub.date }}</dd>
+      <dt>Published</dt><dd>{{ pub.published }}</dd>
+      {% if pub.divisions %}<dt>Divisions</dt><dd>{{ m.chips(pub.divisions) }}</dd>{% endif %}
+      <dt>PDF</dt><dd><a href="{{ pub.pdf_url }}">{{ pub.pdf }}</a></dd>
+      <dt>SHA-256</dt><dd class="hash">{{ pub.sha256 }}</dd>
+      {% if pub.replaces %}<dt>Replaces</dt><dd>{{ m.publication_links(pub.replaces) }}</dd>{% endif %}
+      {% if pub.replaced_by %}<dt>Replaced by</dt><dd>{{ m.publication_links(pub.replaced_by) }}</dd>{% endif %}
+    </dl>
+  </div>
+</section>
+
+{% if pub.abstract %}
+<section class="win">
+  <h2 class="bar">Abstract</h2>
+  <div class="in">{{ pub.abstract|safe }}</div>
+</section>
+{% elif pub.summary %}
+<section class="win">
+  <h2 class="bar">Summary</h2>
+  <div class="in"><p>{{ pub.summary|safe }}</p></div>
+</section>
+{% endif %}
+<p class="note more"><a href="{{ SITEURL }}/{{ PUBLICATIONS_URL }}">all publications</a></p>
+{% endblock %}

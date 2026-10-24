@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="{{ DEFAULT_LANG }}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}{{ SITENAME }}{% endblock %}</title>
+<meta name="description" content="{% block description %}{{ SITE_DESCRIPTION }}{% endblock %}">
+<link rel="stylesheet" href="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/css/pe502.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<svg id="grain" aria-hidden="true"><filter id="gf"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="3" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="100%" height="100%" filter="url(#gf)" opacity=".26"/></svg>
+
+<div class="page">
+
+<header class="win">
+  <div class="mast">
+    <div class="seal"><svg viewBox="0 0 88 60" aria-hidden="true"><g fill="#6FA9CB" stroke="#2E5F7D" stroke-width="2"><rect x="2" y="44" width="84" height="14"/><rect x="16" y="30" width="56" height="14"/><rect x="16" y="16" width="14" height="14"/><rect x="44" y="16" width="14" height="14"/><rect x="44" y="2" width="14" height="14"/></g></svg></div>
+    <div>
+      {% if site_heading %}<h1 class="name">{% else %}<p class="name">{% endif %}<a href="{{ SITEURL }}/">{{ SITENAME }}</a>{% if site_heading %}</h1>{% else %}</p>{% endif %}
+
+      <div class="sub">{{ SITESUBTITLE }}</div>
+    </div>
+  </div>
+  <nav class="tabs" aria-label="Sections">
+  {% for key, url, save_as in [("home", INDEX_URL, INDEX_SAVE_AS), ("publications", PUBLICATIONS_URL, PUBLICATIONS_SAVE_AS), ("divisions", DIVISIONS_URL, DIVISIONS_SAVE_AS), ("about", "about/", "about/index.html")] %}
+    <a href="{{ SITEURL }}/{{ url }}"{% if output_file == save_as %} aria-current="page"{% elif section == key %} aria-current="true"{% endif %}>{{ key }}</a>
+  {% endfor %}
+  </nav>
+</header>
+
+<main id="main" tabindex="-1">
+{% block content %}{% endblock %}
+</main>
+
+<footer class="note">
+  <hr>
+  {{ SITENAME }} &nbsp;/&nbsp; {{ AUTHOR }} &nbsp;/&nbsp; <a href="https://projecteuler.net/problem=502">Project Euler problem 502</a>
+</footer>
+
+</div>
+</body>
+</html>

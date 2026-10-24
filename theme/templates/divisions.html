@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% set section = "divisions" %}
+{% macro plural(n, word) %}{{ n }} {{ word }}{% if n != 1 %}s{% endif %}{% endmacro %}
+{% block title %}Divisions - {{ SITENAME }}{% endblock %}
+{% block content %}
+<section class="win">
+  <h1 class="bar">Divisions</h1>
+  <div class="in">
+    <p>Divisions sort posts and publications by subject. Each has a page with its posts, the publications tagged with it, and a list of its research interests.</p>
+    <div class="cards">
+    {% for d in divisions %}
+      <a class="card" href="{{ SITEURL }}/{{ d.url }}">
+        <span class="top"><span class="badge" aria-hidden="true">{{ d.badge }}</span><span class="nm">{{ d.name }}{% if d.label != d.name %}<span class="lb">{{ d.label }}</span>{% endif %}</span></span>
+        <span class="bl">{{ d.blurb|safe }}</span>
+        <span class="ct">
+        {%- if d.posts %}{{ plural(d.posts|length, "post") }}{% endif %}
+        {%- if d.posts and d.publications %} &middot; {% endif %}
+        {%- if d.publications %}{{ plural(d.publications|length, "publication") }}{% endif %}
+        {%- if not (d.posts or d.publications) %}nothing posted yet{% endif -%}
+        </span>
+      </a>
+    {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

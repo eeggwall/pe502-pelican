@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% import "macros.html" as m with context %}
+{% set section = "publications" %}
+{% block title %}Publications - {{ SITENAME }}{% endblock %}
+{% block content %}
+<section class="win">
+  <h1 class="bar">Publications</h1>
+  <div class="in">
+  {% if publications %}
+    <div class="scroll"><table>
+      <thead><tr><th scope="col">ID</th><th scope="col">Title</th><th scope="col">Type</th><th scope="col">Divisions</th><th scope="col">Published</th></tr></thead>
+      <tbody>
+      {% for pub in publications %}
+        <tr>
+          <td class="id"><a href="{{ SITEURL }}/{{ pub.url }}">{{ pub.id }}</a></td>
+          <td class="ti"><a href="{{ SITEURL }}/{{ pub.url }}">{{ pub.title }}</a> {{ m.pdf_link(pub) }}{% if pub.replaced_by %}<span class="note">Replaced by {{ m.publication_links(pub.replaced_by) }}</span>{% endif %}</td>
+          <td class="ty">{{ pub.series }}</td>
+          <td>{{ m.chips(pub.divisions) }}</td>
+          <td class="up">{{ pub.published }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table></div>
+  {% else %}
+    <p class="note">No publications have been issued yet.</p>
+  {% endif %}
+    <p class="note more">A publication is frozen when it is issued. A correction or revision gets a new number that names the publication it replaces, and both stay available.</p>
+  </div>
+</section>
+{% endblock %}

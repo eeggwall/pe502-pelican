@@ -1,0 +1,52 @@
+{# Shared rendering. Import with context so SITEURL is visible. #}
+
+{% macro division_links(divisions) -%}
+{% for d in divisions %}<a href="{{ SITEURL }}/{{ d.url }}">{{ d.label }}</a>{% if not loop.last %}, {% endif %}{% endfor %}
+{%- endmacro %}
+
+{% macro chips(divisions) -%}
+<span class="chips">{% for d in divisions %}<a class="chip" href="{{ SITEURL }}/{{ d.url }}">{{ d.label }}</a>{% endfor %}</span>
+{%- endmacro %}
+
+{% macro publication_links(pubs) -%}
+{% for p in pubs %}<a href="{{ SITEURL }}/{{ p.url }}">{{ p.id }}</a>{% if not loop.last %}, {% endif %}{% endfor %}
+{%- endmacro %}
+
+{% macro pdf_link(pub) -%}
+<a class="ft" href="{{ pub.pdf_url }}" aria-label="{{ pub.id }} PDF">PDF</a>
+{%- endmacro %}
+
+{# A post prints on a tractor-feed sheet; linked is false on its own page. #}
+{% macro printout(article, level=2, linked=true) -%}
+<article class="printout"><div class="sheet">
+<div class="hd"><time datetime="{{ article.date.strftime('%Y-%m-%d') }}">{{ article.locale_date }}</time></div>
+<h{{ level }} class="title">{% if linked %}<a href="{{ SITEURL }}/{{ article.url }}">{{ article.title }}</a>{% else %}{{ article.title }}{% endif %}</h{{ level }}>
+{{ article.content|safe }}
+{% if article.divisions %}
+<p class="sig">Filed under {{ division_links(article.divisions) }}</p>
+{% endif %}
+</div></article>
+{%- endmacro %}
+
+{% macro publication_entry(pub, level=3) -%}
+<article class="entry">
+<div class="meta"><span>{{ pub.published }}</span><span>{{ pub.id }} &middot; {{ pub.series }}</span>{% if pub.divisions %}{{ chips(pub.divisions) }}{% endif %}</div>
+<h{{ level }} class="title"><a href="{{ SITEURL }}/{{ pub.url }}">{{ pub.title }}</a> {{ pdf_link(pub) }}</h{{ level }}>
+{% if pub.summary or pub.replaced_by %}
+<div class="body">
+{% if pub.summary %}<p>{{ pub.summary|safe }}</p>{% endif %}
+{% if pub.replaced_by %}<p class="note">Replaced by {{ publication_links(pub.replaced_by) }}.</p>{% endif %}
+</div>
+{% endif %}
+</article>
+{%- endmacro %}
+
+{% macro pagination(page, previous, next) -%}
+{% if page.paginator.num_pages > 1 %}
+<nav class="pager note" aria-label="Post pages">
+{% if previous %}<a href="{{ SITEURL }}/{{ previous.url }}" rel="prev">newer posts</a>{% endif %}
+<span>page {{ page.number }} of {{ page.paginator.num_pages }}</span>
+{% if next %}<a href="{{ SITEURL }}/{{ next.url }}" rel="next">older posts</a>{% endif %}
+</nav>
+{% endif %}
+{%- endmacro %}

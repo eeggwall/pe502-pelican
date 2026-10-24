@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% import "macros.html" as m with context %}
+{% set section = "divisions" %}
+{% set d = division %}
+{% set first = articles_page.number == 1 %}
+{% block title %}{{ d.name }}{% if not first %} - posts, page {{ articles_page.number }}{% endif %} - {{ SITENAME }}{% endblock %}
+{% block description %}{{ d.blurb|striptags }}{% endblock %}
+{% block content %}
+<div class="win">
+  <div class="mast">
+    <div class="badge" aria-hidden="true">{{ d.badge }}</div>
+    <div>
+      <h1>{{ d.name }}</h1>
+      <div class="sub">{% if d.label != d.name %}{{ d.label }} &middot; {% endif %}{{ d.blurb|safe }}</div>
+    </div>
+  </div>
+</div>
+
+{% if first %}
+<section class="win">
+  <h2 class="bar">Publications</h2>
+  <div class="in">
+  {% if d.publications %}
+    <div class="feed">
+    {% for pub in d.publications %}
+      {{ m.publication_entry(pub, level=3) }}
+    {% endfor %}
+    </div>
+  {% else %}
+    <p class="note">No publications are tagged with this division yet.</p>
+  {% endif %}
+  </div>
+</section>
+{% endif %}
+
+<section class="win">
+  <h2 class="bar">Posts{% if not first %}, page {{ articles_page.number }} of {{ articles_paginator.num_pages }}{% endif %}</h2>
+  <div class="in">
+  {% if articles_page.object_list %}
+    <div class="feed">
+    {% for article in articles_page.object_list %}
+      {{ m.printout(article, level=3) }}
+    {% endfor %}
+    </div>
+    {{ m.pagination(articles_page, articles_previous_page, articles_next_page) }}
+  {% else %}
+    <p class="note">No posts are tagged with this division yet.</p>
+  {% endif %}
+  </div>
+</section>
+
+{% if first %}
+<section class="win">
+  <h2 class="bar">Research interests</h2>
+  <div class="in">
+  {% if d.interests %}
+    <ul class="topics">
+    {% for interest in d.interests %}
+      <li>{{ interest|safe }}</li>
+    {% endfor %}
+    </ul>
+  {% else %}
+    <p class="note">No research interests listed yet.</p>
+  {% endif %}
+  </div>
+</section>
+{% endif %}
+<p class="note more"><a href="{{ SITEURL }}/{{ DIVISIONS_URL }}">all divisions</a></p>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% import "macros.html" as m with context %}
+{% set section = "home" %}
+{% set site_heading = articles_page.number == 1 %}
+{% set intro = hidden_pages|selectattr("slug", "equalto", "home")|first %}
+{% block title %}{{ SITENAME }}{% if articles_page.number > 1 %} - posts, page {{ articles_page.number }}{% endif %}{% endblock %}
+{% block content %}
+{% if articles_page.number == 1 and intro %}
+<section class="win">
+  <h2 class="bar">This site</h2>
+  <div class="in">{{ intro.content|safe }}</div>
+</section>
+{% endif %}
+
+<section class="win">
+  <h2 class="bar">Posts{% if articles_page.number > 1 %}, page {{ articles_page.number }} of {{ articles_paginator.num_pages }}{% endif %}</h2>
+  <div class="in">
+  {% if articles_page.object_list %}
+    <div class="feed">
+    {% for article in articles_page.object_list %}
+      {{ m.printout(article, level=3) }}
+    {% endfor %}
+    </div>
+    {{ m.pagination(articles_page, articles_previous_page, articles_next_page) }}
+  {% else %}
+    <p class="note">Nothing posted yet.</p>
+  {% endif %}
+    <p class="note more"><a href="{{ SITEURL }}/{{ PUBLICATIONS_URL }}">all publications</a> &nbsp;/&nbsp; <a href="{{ SITEURL }}/{{ DIVISIONS_URL }}">divisions</a></p>
+  </div>
+</section>
+{% endblock %}

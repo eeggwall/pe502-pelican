@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% import "macros.html" as m with context %}
+{% set section = "home" %}
+{% block title %}{{ article.title|striptags }} - {{ SITENAME }}{% endblock %}
+{% block content %}
+<section class="win">
+  <p class="bar">Post</p>
+  <div class="in">
+    {{ m.printout(article, level=1, linked=false) }}
+    <p class="note more"><a href="{{ SITEURL }}/">all posts</a>{% for d in article.divisions %} &nbsp;/&nbsp; <a href="{{ SITEURL }}/{{ d.url }}">{{ d.name }}</a>{% endfor %}</p>
+  </div>
+</section>
+{% endblock %}
