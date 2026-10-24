@@ -1,0 +1,38 @@
+[
+  {
+    "id": "PE502-1",
+    "number": 1,
+    "series": "Technical Report",
+    "title": "Castle Polyominoes and How to Count Them",
+    "date": "September 27, 2026",
+    "published": "2026-10-12",
+    "pdf": "PE502-1.pdf",
+    "sha256": "41e9ad5605a34ec6d4e810976b2a66c4720db3b7ffbba92a954488d323e419f1",
+    "obsoletes": [],
+    "obsoleted_by": []
+  },
+  {
+    "id": "PE502-2",
+    "number": 2,
+    "series": "Technical Report",
+    "title": "Fibonacci Castles",
+    "date": "October 1, 2026",
+    "published": "2026-10-12",
+    "pdf": "PE502-2.pdf",
+    "sha256": "bda9715ffe10ab3608c62c7fd43acbf2cd18e59ccdec3b6e6337a7521e33cf45",
+    "obsoletes": [],
+    "obsoleted_by": []
+  },
+  {
+    "id": "PE502-3",
+    "number": 3,
+    "series": "Technical Report",
+    "title": "Pell Castles",
+    "date": "October 4, 2026",
+    "published": "2026-10-15",
+    "pdf": "PE502-3.pdf",
+    "sha256": "62934b442937aff30d37c5253fcc452db7562282a6e3b2bd9fb80c8276922b1e",
+    "obsoletes": [],
+    "obsoleted_by": []
+  }
+]
